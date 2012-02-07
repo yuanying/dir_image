@@ -1,17 +1,13 @@
-puts 'libdir'
-puts RbConfig::CONFIG['libdir']
 
 require 'ri_config'
-require 'image'
-require 'directory'
+require 'filesystem'
 
 require 'sinatra/base'
 require 'json'
 
 $config = RIConfig.new(File.join(File.dirname(__FILE__), '..', 'config.yml'))
 
-Directory.init $config
-Image.init $config
+Filesystem.init $config
 
 class DirImage < Sinatra::Base
 
@@ -42,4 +38,17 @@ class DirImage < Sinatra::Base
     send_file image.thumbnail_path
   end
 
+  get '/files/' do
+    path = params[:path] || '/'
+    image = Image.new(path)
+    send_file image.real_path.to_s
+  end
+
+  get '/images/' do
+    path = params[:path] || '/'
+
+    @image        = Image.new(path)
+
+    erb :images
+  end
 end
