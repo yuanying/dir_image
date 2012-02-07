@@ -23,13 +23,13 @@ class Filesystem
   def initialize path, parent=nil
     @path = Pathname.new(path)
     raise if File.expand_path(real_path).length < Filesystem.config.image_dir.length
-    @parent = parent
+    @parent = parent if parent
   end
 
   attr_accessor :path
 
   def parent
-    unless @parent
+    unless defined?(@parent)
       @parent = Directory.new(File.dirname(path))
     end
     @parent

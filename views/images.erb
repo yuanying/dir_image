@@ -1,7 +1,7 @@
 
 <div data-role='page' data-fullscreen='true' class='images'>
   <div data-role="header" data-position='fixed'>
-    <a data-role='button' data-icon='back' data-rel='back' href='/'>Back</a>
+    <a data-role='button' data-icon='back' data-direction='reverse' href='/?path=<%=@image.parent.path%>'>Back</a>
     <h1><%=@image.name%></h1>
     <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
   </div>
@@ -13,14 +13,14 @@
   <div data-role="footer" data-position='fixed'>
     <% if @image.previous %>
     <a  data-role='button'
-        data-icon='back'
+        data-icon='arrow-l'
         data-prefetch='true'
         data-direction='reverse'
         class='back' href='/images/?path=<%=@image.previous.path%>'>Previous</a>
     <% end %>
     <% if @image.next %>
     <a  data-role='button'
-        data-icon='forward'
+        data-icon='arrow-r'
         data-prefetch='true'
         class='forward' href='/images/?path=<%=@image.next.path%>'>Next</a>
     <% end %>
