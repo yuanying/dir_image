@@ -1,13 +1,12 @@
 
 <div data-role='page' data-fullscreen='true' class='images'>
   <div data-role="header" data-position='fixed'>
-    <a data-role='button' data-icon='back' data-direction='reverse' href='/?path=<%=@image.parent.path%>'>Back</a>
+    <a data-role='button' data-icon='back' data-direction='reverse' href='<%=@image.parent.url%>'>Back</a>
     <h1><%=@image.name%></h1>
-    <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
+    <a data-role='button' data-icon='home' class='refresh' href='/' data-transition='slidedown'>Home</a>
   </div>
   <div data-role='content'>
-    <!-- <img id='image' /> -->
-    <img src='/files/?path=<%=@image.path%>' />
+    <img src='<%=@image.url%>' />
   </div>
 
   <div data-role="footer" data-position='fixed'>
@@ -16,13 +15,14 @@
         data-icon='arrow-l'
         data-prefetch='true'
         data-direction='reverse'
-        class='back' href='/images/?path=<%=@image.previous.path%>'>Previous</a>
+        class='back' href='<%=@image.previous.page_url%>'>Previous</a>
     <% end %>
     <% if @image.next %>
     <a  data-role='button'
         data-icon='arrow-r'
         data-prefetch='true'
-        class='forward' href='/images/?path=<%=@image.next.path%>'>Next</a>
+        data-iconpos='right'
+        class='forward ui-btn-right' href='<%=@image.next.page_url%>'>Next</a>
     <% end %>
 
   </div>

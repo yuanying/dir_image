@@ -4,8 +4,30 @@ class Image < Filesystem
 
   SUPPORTED_FORMATS = ['.png', '.PNG', '.jpg', '.JPG', '.jpeg']
 
-  def initialize path, parent = nil
+  def self.get index, path, parent=nil
+    @cache ||= {}
+    index = index.to_i
+    real_path = Filesystem.real_path(index,path)
+    unless image = @cache[real_path]
+      image = Image.new(index, path, parent)
+    end
+    image
+  end
+
+  def initialize index, path, parent = nil
     super
+  end
+
+  def url
+    "/files/#{index}?path=#{path}"
+  end
+
+  def page_url
+    "/images/#{index}?path=#{path}"
+  end
+
+  def thumb_url
+    "/thumbs/#{index}?path=#{path}"
   end
 
   def next
@@ -27,7 +49,11 @@ class Image < Filesystem
     @previous
   end
 
-  def create_thumbnail thumbnail_path
+  def create_thumbnail
+    return if File.exist?(thumbnail_path)
+
+    FileUtils.mkdir_p(File.dirname(thumbnail_path)) unless File.exist?(File.dirname(thumbnail_path))
+
     ImageScience.with_image(self.real_path) do |img|
       img.cropped_thumbnail(76) do |thumb|
         thumb.save thumbnail_path
@@ -38,10 +64,7 @@ class Image < Filesystem
   end
 
   def thumbnail_path
-    File.join(Filesystem.tmp_dir, 'thumb', tmp_path).tap do |thumbnail_path|
-      FileUtils.mkdir_p(File.dirname(thumbnail_path)) unless File.exist?(File.dirname(thumbnail_path))
-      self.create_thumbnail(thumbnail_path)           unless File.exist?(thumbnail_path)
-    end
+    File.join(Filesystem.tmp_dir, 'thumb', real_path)
   end
 
 end

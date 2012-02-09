@@ -1,27 +1,18 @@
 <div data-role='page' class='index' id='page_<%=@page%>'>
   <div data-role="header" data-position='fixed'>
-    <a data-role='button' data-icon='back' data-direction='reverse' href='/?path=<%=@directory.parent.path%>'>Back</a>
     <h1>DI</h1>
-    <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
+    <a data-role='button' data-icon='home ui-btn-right' class='refresh' href='/' data-transition='slideup'>Home</a>
   </div>
 
-  <% if @directory.children.size > 0 %>
+  <% if @indexes.size > 0 %>
   <div data-role='content'>
 
     <ul data-role="listview">
-      <% @directory.children.each do |dir| %>
-      <li><a href='/?path=<%=dir.path%>'><%=dir.name%></a></li>
+      <% @indexes.each do |dir| %>
+      <li><a href='/dirs/<%=dir.last%>'><%=dir.first%></a></li>
       <% end %>
     </ul>
   </div>
   <% end %>
-
-  <div class='thumbs' data-role='content'>
-    <ul>
-<!-- --><% @directory.images.each_with_index do |image, i| %><!--
-      --><li><a href='/images/?path=<%=image.path%>'><img src='/thumbs/?path=<%=image.path%>' width='76' height='76' alt='' /></a></li><!--
- --><% end %>
-    </ul>
-  </div>
 
 </div>

@@ -9,38 +9,37 @@ class Filesystem
     @config
   end
 
+  def self.real_path index, path
+    File.join(Filesystem.image_dir(index), path)
+  end
+
   def self.tmp_dir
     self.config.tmp_dir
   end
 
-  def self.regexp_path
-    unless @regexp_path
-      @regexp_path = Regexp.compile('^' + Regexp.escape(self.config.image_dir))
-    end
-    @regexp_path
+  def self.image_dir index
+    File.expand_path(Filesystem.config.image_dirs[index])
   end
 
-  def initialize path, parent=nil
-    @path = Pathname.new(path)
-    raise if File.expand_path(real_path).length < Filesystem.config.image_dir.length
+  def initialize index, path, parent=nil
+    @path   = path
+    @index  = index.to_i
+    raise if File.expand_path(real_path).length < Filesystem.image_dir(index).length
     @parent = parent if parent
   end
 
   attr_accessor :path
+  attr_accessor :index
 
   def parent
     unless defined?(@parent)
-      @parent = Directory.new(File.dirname(path))
+      @parent = Directory.get(index, File.dirname(path))
     end
     @parent
   end
 
   def real_path
-    File.join(Filesystem.config.image_dir, path)
-  end
-
-  def tmp_path
-    self.path.to_s.split(Filesystem.regexp_path).last
+    Filesystem.real_path(index, path)
   end
 
   def name

@@ -26,28 +26,43 @@ class DirImage < Sinatra::Base
   end
 
   get '/' do
-    path = params[:path] || '/'
-    @directory = Directory.new(path)
-
+    @indexes = []
+    Filesystem.config.image_dirs.each_with_index do |dir, index|
+      @indexes << [File.basename(dir), index]
+    end
     erb :index
   end
 
-  get '/thumbs/' do
-    path = params[:path] || '/'
-    image = Image.new(path)
+  get '/dirs/:index' do
+    path        = params[:path] || '/'
+    @index      = params[:index]
+    @directory  = Directory.get(@index, path)
+    @back_url   = path == '/' ? '/' : @directory.parent.url
+
+    erb :dirs
+  end
+
+  get '/thumbs/:index' do
+    path    = params[:path] || '/'
+    @index  = params[:index]
+    image = Image.get(@index, path)
+
+    image.create_thumbnail
     send_file image.thumbnail_path
   end
 
-  get '/files/' do
-    path = params[:path] || '/'
-    image = Image.new(path)
+  get '/files/:index' do
+    path    = params[:path] || '/'
+    @index  = params[:index]
+    image = Image.get(@index, path)
     send_file image.real_path.to_s
   end
 
-  get '/images/' do
-    path = params[:path] || '/'
+  get '/images/:index' do
+    path    = params[:path] || '/'
+    @index  = params[:index]
 
-    @image        = Image.new(path)
+    @image = Image.get(@index, path)
 
     erb :images
   end

@@ -4,8 +4,8 @@ class RIConfig
     @opts = YAML.load_file path
   end
 
-  def image_dir
-    File.expand_path(opts['image_dir'])
+  def image_dirs
+    opts['image_dirs']
   end
 
   def tmp_dir

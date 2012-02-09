@@ -1,10 +1,22 @@
 
 class Directory < Filesystem
 
-  attr_accessor :path
+  def self.get index, path, parent=nil
+    @cache ||= {}
+    index = index.to_i
+    real_path = Filesystem.real_path(index, path)
+    unless directory = @cache[real_path]
+      directory = Directory.new(index, path, parent)
+    end
+    directory
+  end
 
-  def initialize path, parent=nil
+  def initialize index, path, parent=nil
     super
+  end
+
+  def url
+    "/dirs/#{index}?path=#{path}"
   end
 
   def children
@@ -25,9 +37,9 @@ class Directory < Filesystem
         next if file.start_with?('.')
         real_file_path = File.join(real_path, file)
         if File.directory?(real_file_path)
-          @children << Directory.new(File.join(path, file))
+          @children << Directory.get(index, File.join(path, file))
         elsif File.file?(real_file_path) && Image::SUPPORTED_FORMATS.include?(File.extname(real_file_path))
-          @images << Image.new(File.join(path, file), self)
+          @images << Image.get(index, File.join(path, file), self)
         end
       end
       @children.sort!
