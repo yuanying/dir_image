@@ -15,7 +15,7 @@
     tmp_dir: '~/.random_image'      # アプリケーションが使用する一時ファイル置き場。
     image_dirs: ['~/Pictures']      # 公開する画像が含まれているフォルダのリスト。
 
-# 実行
+## 実行
 
     $ bundle exec rackup
     [2012-02-09 16:22:43] INFO  WEBrick 1.3.1
@@ -24,3 +24,6 @@
 
 http://localhost:9292/ で動作しているのを確認する。
 
+## Copyright
+
+Copyright &copy; 2012 Yuanying. See LICENSE for details.
