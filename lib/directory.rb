@@ -16,7 +16,7 @@ class Directory < Filesystem
   end
 
   def url
-    "/dirs/#{index}?path=#{path}"
+    "/dirs/#{index}?path=#{Rack::Utils.escape(path)}"
   end
 
   def children

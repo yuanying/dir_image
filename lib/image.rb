@@ -19,15 +19,15 @@ class Image < Filesystem
   end
 
   def url
-    "/files/#{index}?path=#{path}"
+    "/files/#{index}?path=#{Rack::Utils.escape(path)}"
   end
 
   def page_url
-    "/images/#{index}?path=#{path}"
+    "/images/#{index}?path=#{Rack::Utils.escape(path)}"
   end
 
   def thumb_url
-    "/thumbs/#{index}?path=#{path}"
+    "/thumbs/#{index}?path=#{Rack::Utils.escape(path)}"
   end
 
   def next

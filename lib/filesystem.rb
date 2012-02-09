@@ -1,3 +1,4 @@
+require 'rack'
 require 'fileutils'
 
 class Filesystem
