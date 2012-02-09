@@ -3,8 +3,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale=1" /> 
     <link rel="stylesheet" href="/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="/photoswipe.css" type="text/css" />
+
+    <script type="text/javascript" src="/klass.min.js"></script>
     <script type="text/javascript" src="/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="/jquery.mobile-1.0.min.js"></script>
+    <script type="text/javascript" src="code.photoswipe.jquery-3.0.4.min.js"></script>
+
+
     <style type='text/css'>
 /*      body {
         margin: 0;
@@ -34,6 +40,38 @@
         border: none;
       }
     </style>
+    <script type="text/javascript">
+      /*
+       * IMPORTANT!!!
+       * REMEMBER TO ADD  rel="external"  to your anchor tags. 
+       * If you don't this will mess with how jQuery Mobile works
+       */
+      (function(window, $, PhotoSwipe){
+        $(document).ready(function(){
+          $('div.dirs')
+            .live('pageshow', function(e){
+              if ($(".thumbs ul a", e.target).size() > 0) {
+                var 
+                  currentPage = $(e.target),
+                  options = {},
+                  photoSwipeInstance = $(".thumbs ul a", e.target).photoSwipe(options,  currentPage.attr('id'));
+              }
+              return true;
+            })
+            .live('pagehide', function(e){
+              var 
+                currentPage = $(e.target),
+                photoSwipeInstance = PhotoSwipe.getInstance(currentPage.attr('id'));
+              if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
+                PhotoSwipe.detatch(photoSwipeInstance);
+              }
+
+              return true;
+            });
+        });
+      }(window, window.jQuery, window.Code.PhotoSwipe));
+    </script>
+
     <title><%=@title%></title>
   </head>
   <body>

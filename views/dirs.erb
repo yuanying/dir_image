@@ -1,4 +1,4 @@
-<div data-role='page' class='index' id='page_<%=@page%>'>
+<div data-role='page' class='dirs' id='page_<%=@page_id%>'>
   <div data-role="header" data-position='fixed'>
     <a data-role='button' data-icon='back' data-direction='reverse' href='<%=@back_url%>'>Back</a>
     <h1><%=@directory.name%></h1>
@@ -16,12 +16,14 @@
   </div>
   <% end %>
 
+  <% if @directory.images.size > 0 %>
   <div class='thumbs' data-role='content'>
     <ul>
 <!-- --><% @directory.images.each_with_index do |image, i| %><!--
-      --><li><a href='<%=image.page_url%>'><img src='<%=image.thumb_url%>' width='76' height='76' alt='' /></a></li><!--
+      --><li><a href='<%=image.url%>' rel="external"><img src='<%=image.thumb_url%>' width='76' height='76' alt='' /></a></li><!--
  --><% end %>
     </ul>
   </div>
+  <% end %>
 
 </div>

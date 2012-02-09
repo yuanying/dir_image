@@ -4,6 +4,7 @@ require 'filesystem'
 
 require 'sinatra/base'
 require 'json'
+require 'digest/md5'
 
 $config = RIConfig.new(File.join(File.dirname(__FILE__), '..', 'config.yml'))
 
@@ -37,6 +38,7 @@ class DirImage < Sinatra::Base
     path        = params[:path] || '/'
     @index      = params[:index]
     @directory  = Directory.get(@index, path)
+    @page_id    = Digest::MD5.hexdigest("#{@index}/#{path}")
     @back_url   = path == '/' ? '/' : @directory.parent.url
 
     erb :dirs
