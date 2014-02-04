@@ -39,6 +39,7 @@ class Directory < Filesystem
   def thumbnail_path
     create_index
     if @images.size > 0
+      @images[0].create_thumbnail
       @images[0].thumbnail_path
     else
       File.join(Filesystem.static_dir, 'images', 'dir.png')
