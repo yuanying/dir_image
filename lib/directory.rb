@@ -41,7 +41,7 @@ class Directory < Filesystem
     if @images.size > 0
       @images[0].thumbnail_path
     else
-      File.join(File.dirname(__FILE__), '..', 'public', 'images', 'dir.png')
+      File.join(Filesystem.static_dir, 'images', 'dir.png')
     end
   end
 

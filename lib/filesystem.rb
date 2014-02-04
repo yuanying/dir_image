@@ -18,6 +18,10 @@ class Filesystem
     File.join(Filesystem.image_dir(index), path)
   end
 
+  def self.static_dir
+    self.config.static_dir || File.join(File.dirname(__FILE__), '..', 'public')
+  end
+
   def self.tmp_dir
     self.config.tmp_dir
   end

@@ -6,6 +6,10 @@ class RIConfig
     @opts = YAML.load_file path
   end
 
+  def static_dir
+    opts['static_dir'] ? File.expand_path(opts['static_dir']) : nil
+  end
+
   def image_dirs
     opts['image_dirs']
   end
