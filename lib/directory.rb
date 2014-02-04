@@ -19,6 +19,10 @@ class Directory < Filesystem
     "/dirs/#{index}?path=#{Rack::Utils.escape(path)}"
   end
 
+  def thumb_url
+    "/thumbs/#{index}?path=#{Rack::Utils.escape(path)}"
+  end
+
   def children
     create_index
     @children
@@ -27,6 +31,18 @@ class Directory < Filesystem
   def images
     create_index
     @images
+  end
+
+  def create_thumbnail
+  end
+
+  def thumbnail_path
+    create_index
+    if @images.size > 0
+      @images[0].thumbnail_path
+    else
+      File.join(File.dirname(__FILE__), '..', 'public', 'images', 'dir.png')
+    end
   end
 
   def create_index

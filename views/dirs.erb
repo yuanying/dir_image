@@ -10,7 +10,7 @@
 
     <ul data-role="listview">
       <% @directory.children.each do |dir| %>
-      <li><a href='<%=dir.url%>'><%=dir.name%></a></li>
+      <li><a href='<%=dir.url%>'><img src='<%=dir.thumb_url%>' width='76' height='76' alt='' /><%=dir.name%></a></li>
       <% end %>
     </ul>
   </div>

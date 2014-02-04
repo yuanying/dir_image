@@ -1,3 +1,5 @@
+require 'yaml'
+
 class RIConfig
   attr_reader :opts
   def initialize path

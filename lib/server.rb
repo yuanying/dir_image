@@ -46,11 +46,17 @@ class DirImage < Sinatra::Base
 
   get '/thumbs/:index' do
     path    = params[:path] || '/'
-    @index  = params[:index]
-    image = Image.get(@index, path)
+    @index  = params[:index].to_i
+    file    = nil
 
-    image.create_thumbnail
-    send_file image.thumbnail_path
+    if Filesystem.directory?(@index, path)
+      file = Directory.get(@index, path)
+    else
+      file = Image.get(@index, path)
+    end
+
+    file.create_thumbnail
+    send_file file.thumbnail_path
   end
 
   get '/files/:index' do

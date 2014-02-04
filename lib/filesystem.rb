@@ -10,6 +10,10 @@ class Filesystem
     @config
   end
 
+  def self.directory? index, path
+    File.directory?(self.real_path(index, path))
+  end
+
   def self.real_path index, path
     File.join(Filesystem.image_dir(index), path)
   end
