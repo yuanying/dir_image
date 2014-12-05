@@ -6,7 +6,7 @@ require 'sinatra/base'
 require 'json'
 require 'digest/md5'
 
-$config = RIConfig.new(File.join(File.dirname(__FILE__), '..', 'config.yml'))
+$config = RIConfig.new(File.join(File.dirname(__FILE__), '..', 'configs', 'config.yml'))
 
 Filesystem.init $config
 
